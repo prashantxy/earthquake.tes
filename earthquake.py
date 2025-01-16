@@ -4,7 +4,6 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 
 # Simulated dataset (replace this with your real dataset)
 data = pd.DataFrame({
@@ -32,8 +31,7 @@ model = LogisticRegression()
 model.fit(X_train, y_train)
 
 # Streamlit App
-st.title("Earthquake Risk Prediction")
-st.write("This application predicts earthquake risk based on seismic and geological data.")
+st.title("Earthquake Risk Prediction with Map Visualization")
 
 # User Input
 st.sidebar.header("Input Parameters")
@@ -55,8 +53,13 @@ risk = "High Risk" if prediction[0] == 1 else "Low Risk"
 st.subheader("Prediction")
 st.write(f"The predicted earthquake risk is: **{risk}**")
 
-# Optional: Model Performance
-if st.checkbox("Show Model Performance"):
-    y_pred = model.predict(X_test)
-    st.text("Classification Report:")
-    st.text(classification_report(y_test, y_pred))
+# Visualization
+st.subheader("Earthquake Location on Map")
+location_data = pd.DataFrame({
+    "latitude": [latitude],
+    "longitude": [longitude],
+    "risk": [risk]
+})
+
+# Use Streamlit's map visualization
+st.map(location_data)
